@@ -41,3 +41,29 @@ def film_hinzufuegen():
 # Test der Funktion (wird später durch ein Menü ersetzt)
 # film_hinzufuegen()
 # filme_anzeigen()
+
+def zeige_menue():
+    print("\n--- Filmkatalog Menü ---")
+    print("1. Film hinzufügen")
+    print("2. Filme anzeigen")
+    print("3. Beenden")
+    print("------------------------")
+
+def main():
+    while True: # Eine Endlosschleife für das Menü
+        zeige_menue() # Zeige das Menü an
+        wahl = input("Ihre Wahl: ") # Erfasse die Benutzereingabe
+
+        if wahl == '1':
+            film_hinzufuegen()
+        elif wahl == '2':
+            filme_anzeigen()
+        elif wahl == '3':
+            print("Programm wird beendet. Auf Wiedersehen!")
+            break # Beende die Schleife und damit das Programm
+        else:
+            print("Ungültige Eingabe. Bitte versuchen Sie es erneut.")
+
+# Startet das Hauptprogramm, wenn die Datei direkt ausgeführt wird
+if __name__ == "__main__":
+    main()
