@@ -22,9 +22,29 @@ def film_hinzufuegen():
     print("\n--- Film hinzufügen ---")
     titel = input("Titel des Films: ")
     regisseur = input("Regisseur des Films: ")
-    jahr = input("Erscheinungsjahr des Films: ")
-    genre = input("Genre des Films: ") # NEU
-    bewertung = input("Bewertung (1-5 Sterne): ") # NEU
+
+    # Validierung für das Jahr
+    while True:
+        jahr_str = input("Erscheinungsjahr des Films: ")
+        try:
+            jahr = int(jahr_str) # Versuche, die Eingabe in eine Ganzzahl umzuwandeln
+            break # Wenn erfolgreich, beende die Schleife
+        except ValueError:
+            print("Ungültige Eingabe. Das Jahr muss eine Zahl sein.")
+
+    genre = input("Genre des Films: ")
+
+    # Validierung für die Bewertung
+    while True:
+        bewertung_str = input("Bewertung (1-5 Sterne): ")
+        try:
+            bewertung = int(bewertung_str)
+            if 1 <= bewertung <= 5: # Überprüfe, ob die Bewertung im gültigen Bereich liegt
+                break # Wenn erfolgreich, beende die Schleife
+            else:
+                print("Ungültige Bewertung. Bitte geben Sie eine Zahl zwischen 1 und 5 ein.")
+        except ValueError:
+            print("Ungültige Eingabe. Die Bewertung muss eine Zahl sein.")
 
     if titel in filme:
         print(f"Fehler: Film '{titel}' existiert bereits im Katalog.")
@@ -33,10 +53,11 @@ def film_hinzufuegen():
     filme[titel] = {
         "regisseur": regisseur,
         "jahr": jahr,
-        "genre": genre,       # NEU
-        "bewertung": bewertung # NEU
+        "genre": genre,
+        "bewertung": bewertung
     }
     print(f"Film '{titel}' wurde hinzugefügt.")
+
 
 def film_suchen():
     print("\n--- Film suchen ---")
