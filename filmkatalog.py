@@ -66,12 +66,24 @@ def film_suchen():
         print(f"  Jahr: {details.get('jahr', 'N/A')}")
         print("-----------------------")
 
+def film_loeschen():
+    print("\n--- Film löschen ---")
+    titel_zu_loeschen = input("Titel des zu löschenden Films: ")
+    # Überprüfe, ob der Film im Katalog existiert
+    if titel_zu_loeschen in filme:
+        del filme[titel_zu_loeschen] # Entferne den Film aus dem Dictionary
+        print(f"Film '{titel_zu_loeschen}' wurde aus dem Katalog entfernt.")
+    else:
+        print(f"Fehler: Film '{titel_zu_loeschen}' nicht im Katalog gefunden.")
+
+
 def zeige_menue():
     print("\n--- Filmkatalog Menü ---")
     print("1. Film hinzufügen")
     print("2. Filme anzeigen")
-    print("3. Film suchen") # NEU
-    print("4. Beenden")    # NUMMER GEÄNDERT
+    print("3. Film suchen")
+    print("4. Film löschen") # NEU
+    print("5. Beenden")     # NUMMER GEÄNDERT
     print("------------------------")
 
 def main():
@@ -83,9 +95,11 @@ def main():
             film_hinzufuegen()
         elif wahl == '2':
             filme_anzeigen()
-        elif wahl == '3': # NEU
+        elif wahl == '3':
             film_suchen()
-        elif wahl == '4': # NUMMER GEÄNDERT
+        elif wahl == '4': # NEU
+            film_loeschen()
+        elif wahl == '5': # NUMMER GEÄNDERT
             print("Programm wird beendet. Auf Wiedersehen!")
             break
         else:
