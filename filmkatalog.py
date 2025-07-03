@@ -5,67 +5,59 @@ filme = {} # Ein Dictionary zum Speichern der Filme. Schlüssel: Filmtitel, Wert
 DATEINAME = "filme.json" # Dateiname für die Speicherung des Katalogs
 
 def filme_anzeigen():
-    # Überprüfe, ob das 'filme'-Dictionary leer ist
     if not filme:
         print("Der Katalog ist leer.")
-        return # Beende die Funktion hier, wenn keine Filme vorhanden sind
+        return
 
     print("\n--- Dein Filmkatalog ---")
-    # Iteriere über alle Filme im Dictionary
     for titel, details in filme.items():
         print(f"Titel: {titel}")
-        # Verwende .get(), um 'N/A' anzuzeigen, falls ein Detail fehlt
         print(f"  Regisseur: {details.get('regisseur', 'N/A')}")
         print(f"  Jahr: {details.get('jahr', 'N/A')}")
+        print(f"  Genre: {details.get('genre', 'N/A')}")       # NEU
+        print(f"  Bewertung: {details.get('bewertung', 'N/A')}") # NEU
         print("-----------------------")
-
-# Test der Funktion (diese Zeile wird später durch ein Menü ersetzt)
-# filme_anzeigen()
 
 def film_hinzufuegen():
     print("\n--- Film hinzufügen ---")
     titel = input("Titel des Films: ")
     regisseur = input("Regisseur des Films: ")
     jahr = input("Erscheinungsjahr des Films: ")
+    genre = input("Genre des Films: ") # NEU
+    bewertung = input("Bewertung (1-5 Sterne): ") # NEU
 
-    # Überprüfe, ob der Film bereits existiert
     if titel in filme:
         print(f"Fehler: Film '{titel}' existiert bereits im Katalog.")
-        return # Beende die Funktion, wenn der Film schon da ist
+        return
 
-    # Füge den neuen Film zum 'filme'-Dictionary hinzu
     filme[titel] = {
         "regisseur": regisseur,
-        "jahr": jahr
+        "jahr": jahr,
+        "genre": genre,       # NEU
+        "bewertung": bewertung # NEU
     }
     print(f"Film '{titel}' wurde hinzugefügt.")
-
-# Test der Funktion (wird später durch ein Menü ersetzt)
-# film_hinzufuegen()
-# filme_anzeigen()
 
 def film_suchen():
     print("\n--- Film suchen ---")
     suchbegriff = input("Geben Sie einen Suchbegriff für den Titel ein: ").lower()
-    gefundene_filme = {} # Dictionary, um die gefundenen Filme zu speichern
+    gefundene_filme = {}
 
-    # Iteriere durch alle Filme im Katalog
     for titel, details in filme.items():
-        # Überprüfe, ob der Suchbegriff im Titel (kleingeschrieben) enthalten ist
         if suchbegriff in titel.lower():
-            gefundene_filme[titel] = details # Füge den gefundenen Film hinzu
+            gefundene_filme[titel] = details
 
-    # Wenn keine Filme gefunden wurden
     if not gefundene_filme:
         print(f"Keine Filme gefunden, die '{suchbegriff}' im Titel enthalten.")
         return
 
     print(f"\n--- Gefundene Filme für '{suchbegriff}' ---")
-    # Zeige die Details der gefundenen Filme an (ähnlich wie filme_anzeigen)
     for titel, details in gefundene_filme.items():
         print(f"Titel: {titel}")
         print(f"  Regisseur: {details.get('regisseur', 'N/A')}")
         print(f"  Jahr: {details.get('jahr', 'N/A')}")
+        print(f"  Genre: {details.get('genre', 'N/A')}")       # NEU
+        print(f"  Bewertung: {details.get('bewertung', 'N/A')}") # NEU
         print("-----------------------")
 
 def film_loeschen():
