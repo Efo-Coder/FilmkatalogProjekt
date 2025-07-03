@@ -1,6 +1,8 @@
 # Dein Filmkatalog-Programm
+import json
 
 filme = {} # Ein Dictionary zum Speichern der Filme. Schlüssel: Filmtitel, Wert: Dictionary mit Details
+DATEINAME = "filme.json" # Dateiname für die Speicherung des Katalogs
 
 def filme_anzeigen():
     # Überprüfe, ob das 'filme'-Dictionary leer ist
@@ -76,6 +78,37 @@ def film_loeschen():
     else:
         print(f"Fehler: Film '{titel_zu_loeschen}' nicht im Katalog gefunden.")
 
+def katalog_speichern():
+    try:
+        # Öffne die Datei im Schreibmodus ('w') mit UTF-8-Kodierung
+        with open(DATEINAME, 'w', encoding='utf-8') as f:
+            # Speichere das 'filme'-Dictionary als JSON in der Datei
+            # indent=4 für schöne Formatierung, ensure_ascii=False für Umlaute
+            json.dump(filme, f, indent=4, ensure_ascii=False)
+        print(f"Katalog erfolgreich in '{DATEINAME}' gespeichert.")
+    except IOError as e:
+        print(f"Fehler beim Speichern des Katalogs: {e}")
+
+def katalog_laden():
+    global filme # Erlaube den Zugriff auf die globale 'filme'-Variable
+    try:
+        # Versuche, die Datei im Lesemodus ('r') zu öffnen
+        with open(DATEINAME, 'r', encoding='utf-8') as f:
+            filme = json.load(f) # Lade die JSON-Daten in das 'filme'-Dictionary
+        print(f"Katalog erfolgreich aus '{DATEINAME}' geladen.")
+    except FileNotFoundError:
+        # Wenn die Datei nicht existiert, ist das normal beim ersten Start
+        print("Keine vorhandene Katalogdatei gefunden. Starte mit leerem Katalog.")
+        filme = {} # Stelle sicher, dass 'filme' initialisiert ist
+    except json.JSONDecodeError as e:
+        # Wenn die Datei existiert, aber kein gültiges JSON enthält
+        print(f"Fehler beim Laden des Katalogs (ungültiges JSON): {e}. Starte mit leerem Katalog.")
+        filme = {}
+    except Exception as e:
+        # Fange alle anderen unerwarteten Fehler ab
+        print(f"Ein unerwarteter Fehler beim Laden ist aufgetreten: {e}. Starte mit leerem Katalog.")
+        filme = {}
+
 
 def zeige_menue():
     print("\n--- Filmkatalog Menü ---")
@@ -87,6 +120,7 @@ def zeige_menue():
     print("------------------------")
 
 def main():
+    katalog_laden() # Hier am Anfang aufrufen, um den Katalog zu laden
     while True:
         zeige_menue()
         wahl = input("Ihre Wahl: ")
@@ -97,9 +131,10 @@ def main():
             filme_anzeigen()
         elif wahl == '3':
             film_suchen()
-        elif wahl == '4': # NEU
+        elif wahl == '4':
             film_loeschen()
-        elif wahl == '5': # NUMMER GEÄNDERT
+        elif wahl == '5':
+            katalog_speichern() # Hier vor dem Beenden aufrufen
             print("Programm wird beendet. Auf Wiedersehen!")
             break
         else:
